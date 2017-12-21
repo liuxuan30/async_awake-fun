@@ -450,6 +450,14 @@ do { \
     chmod(tar, 0777);
     inject_trusts(1, (const char **)&(const char*[]){tar});
 
+    // copy debugserver
+    printf("inject debugserver start\n");
+    const char *debugserver = "/" BOOTSTRAP_PREFIX "/debugserver";
+    cp(debugserver, progname("debugserver"));
+    chmod(debugserver, 0777);
+    inject_trusts(1, (const char **)&(const char*[]){debugserver});
+    printf("inject debugserver finished\n");
+
     int rv;
     rv = startprog(kern_ucred, tar, (char **)&(const char*[]){ tar, "-xpf", progname("binpack.tar"), "-C", "/" BOOTSTRAP_PREFIX, NULL });
     unlink(tar);
